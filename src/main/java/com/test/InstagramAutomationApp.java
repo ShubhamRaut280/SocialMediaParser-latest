@@ -141,6 +141,9 @@ public class InstagramAutomationApp extends JFrame {
     }
 
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(InstagramAutomationApp::new);
+    }
 
 
 }
