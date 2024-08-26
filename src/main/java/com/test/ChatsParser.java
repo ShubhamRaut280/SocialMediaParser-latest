@@ -100,7 +100,7 @@ public class ChatsParser {
     private boolean isthisEnd() {
         boolean ans = false;
         try {
-            WebElement ele = driver.findElement(By.xpath("//androidx.recyclerview.widget.RecyclerView[@resource-id=\"com.instagram.android:id/message_list\"]/android.widget.LinearLayout"));
+            WebElement ele = driver.findElement(By.xpath("//android.widget.FrameLayout[@resource-id=\"com.instagram.android:id/user_avatar\"]"));
             return true;
         } catch (Exception e) {
             return false;
