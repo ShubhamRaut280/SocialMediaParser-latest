@@ -9,6 +9,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.apache.commons.io.FileUtils;
 
@@ -32,35 +33,32 @@ public class ChatsParser {
         System.out.println("Inside storeScreenshots");
 
         // Navigate to the messages screen
-        WebElement messenger = driver.findElement(By.id("com.instagram.android:id/action_bar_inbox_button"));
+        WebElement messenger = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("com.instagram.android:id/action_bar_inbox_button"))));
         messenger.click();
 
-        List<WebElement> users = driver.findElements(By.id("com.instagram.android:id/row_inbox_container"));
-        for (WebElement user : users) {
-            user.click();
-            WebElement detailsContainer = driver
-                    .findElement(By.xpath("//android.widget.LinearLayout[@resource-id=\"com.instagram.android:id/action_bar\"]"))
-                    .findElement(By.id("com.instagram.android:id/action_bar_textview_custom_title_container"))
-                    .findElement(By.xpath("//android.view.ViewGroup[@resource-id=\"com.instagram.android:id/direct_thread_action_bar_left_aligned_container\"]"))
-                    .findElement(By.id("com.instagram.android:id/thread_title_container"));
-            WebElement title = detailsContainer.findElement(By.id("com.instagram.android:id/thread_title"));
 
-                    // Scroll through the chat until the end and take screenshots
-            while (true) {
-                // Take a screenshot of the current view
-                File screenshot = driver.getScreenshotAs(OutputType.FILE);
-                saveScreenshot(screenshot, title.getText());
+            List<WebElement> users =  driver.findElements(By.id("com.instagram.android:id/row_inbox_container"));
+            for (WebElement user : users) {
 
-                scrollUp();
+                String username= user.findElement(By.id("com.instagram.android:id/row_inbox_username")).getText();
+                user.click();
 
-                if (isthisEnd()) {
-                    break;
+                while (true) {
+                    // Take a screenshot of the current view
+                    File screenshot = driver.getScreenshotAs(OutputType.FILE);
+                    saveScreenshot(screenshot, username);
+
+                    scrollUp();
+
+                    if (isthisEnd()) {
+                        break;
+                    }
                 }
+
+                // Go back to the list of users
+                driver.findElement(By.id(backBtnId)).click();
             }
 
-            // Go back to the list of users
-            driver.findElement(By.id(backBtnId)).click();
-        }
     }
 
     private static void saveScreenshot(File screenshot, String username) {

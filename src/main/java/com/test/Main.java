@@ -21,7 +21,7 @@ import java.time.Duration;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) {
         var options = new BaseOptions()
                 .amend("platformName", "Android")
                 .amend("appium:platformVersion", "11")
