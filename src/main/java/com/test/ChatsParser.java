@@ -37,6 +37,7 @@ public class ChatsParser {
         messenger.click();
 
 
+        try {
             List<WebElement> users =  driver.findElements(By.id("com.instagram.android:id/row_inbox_container"));
             for (WebElement user : users) {
 
@@ -58,6 +59,9 @@ public class ChatsParser {
                 // Go back to the list of users
                 driver.findElement(By.id(backBtnId)).click();
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 

@@ -15,47 +15,56 @@ import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.swing.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 
 public class Main {
+
     public static void main(String[] args) {
-        var options = new BaseOptions()
-                .amend("platformName", "Android")
-                .amend("appium:platformVersion", "11")
-                .amend("appium:deviceName", "Redmi Note 8")
-                .amend("appium:automationName", "UiAutomator2")
-                .amend("appium:appPackage", "com.instagram.android")
-                .amend("appium:appActivity", "com.instagram.android.activity.MainTabActivity")
-                .amend("appium:udid", "179124d9")
-                .amend("appium:noReset", true)
-                .amend("appium:setFullReset", false)
-                .amend("appium:newCommandTimeout", 300)
-                .amend("appium:ensureWebviewsHavePages", true)
-                .amend("appium:nativeWebScreenshot", true)
-                .amend("appium:connectHardwareKeyboard", true);
-
-        try {
-
-            AppiumDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
-
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-
-//            clickonProflie(wait, driver);
-            ChatsParser chatsParser = new ChatsParser(driver, wait);
-            chatsParser.storeScreenshots();
-
-
-
-
-            driver.quit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SwingUtilities.invokeLater(InstagramAutomationApp::new);
     }
+
+
+
+//    public static void main(String[] args) {
+//        var options = new BaseOptions()
+//                .amend("platformName", "Android")
+//                .amend("appium:platformVersion", "11")
+//                .amend("appium:deviceName", "Redmi Note 8")
+//                .amend("appium:automationName", "UiAutomator2")
+//                .amend("appium:appPackage", "com.instagram.android")
+//                .amend("appium:appActivity", "com.instagram.android.activity.MainTabActivity")
+//                .amend("appium:udid", "179124d9")
+//                .amend("appium:noReset", true)
+//                .amend("appium:setFullReset", false)
+//                .amend("appium:newCommandTimeout", 300)
+//                .amend("appium:ensureWebviewsHavePages", true)
+//                .amend("appium:nativeWebScreenshot", true)
+//                .amend("appium:connectHardwareKeyboard", true);
+//
+//        try {
+//
+//            AppiumDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
+//
+//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+//
+//
+////            clickonProflie(wait, driver);
+//            ChatsParser chatsParser = new ChatsParser(driver, wait);
+//            chatsParser.storeScreenshots();
+//
+//
+//
+//
+//            driver.quit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 
     private static void clickonProflie(WebDriverWait wait, AppiumDriver driver) {
         // click on profile
