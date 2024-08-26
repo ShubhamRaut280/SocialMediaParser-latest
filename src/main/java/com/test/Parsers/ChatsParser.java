@@ -65,7 +65,7 @@ public class ChatsParser {
 
     private static void saveScreenshot(File screenshot, String username) {
         try {
-            String sourceFolderPath = System.getProperty("user.home") + "Desktop/chats/"+username+"/"; // Update this path as needed
+            String sourceFolderPath = System.getProperty("user.home") + "/Desktop/chats/"+username+"/"; // Update this path as needed
 
             // Save the screenshot in the specified folder
             String filePath = sourceFolderPath + "/messages" + System.currentTimeMillis() + ".png";

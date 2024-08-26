@@ -140,14 +140,7 @@ public class InstagramAutomationApp extends JFrame {
         return devices;
     }
 
-    private void clickOnProfile(WebDriverWait wait, AppiumDriver driver) {
-        // Your automation code
-        WebElement tabAvatar = wait.until(ExpectedConditions.elementToBeClickable(By.id("com.instagram.android:id/tab_avatar")));
-        tabAvatar.click();
-        logArea.append("Clicked on Profile.\n");
-    }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(InstagramAutomationApp::new);
-    }
+
+
 }
