@@ -1,5 +1,6 @@
 package com.test;
 
+import com.test.Parsers.ChatsParser;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.options.BaseOptions;
@@ -10,20 +11,28 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.test.Utils.Utils.addDelay;
 
 public class InstagramAutomationApp extends JFrame {
 
     private JButton startButton;
     private JTextArea logArea;
     private JProgressBar progressBar;
+    private JComboBox<String> deviceDropdown;
     private AppiumDriver driver;
 
     public InstagramAutomationApp() {
         // Set up the GUI
         setTitle("Instagram Automation");
-        setSize(400, 300);
+        setSize(500, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -40,8 +49,16 @@ public class InstagramAutomationApp extends JFrame {
         progressBar.setIndeterminate(false); // Initially not running
         progressBar.setVisible(false); // Hidden initially
 
+        // Fetch connected devices and populate the dropdown
+        deviceDropdown = new JComboBox<>(getConnectedDevices().toArray(new String[0]));
+        deviceDropdown.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(deviceDropdown, BorderLayout.WEST);
+        topPanel.add(startButton, BorderLayout.EAST);
+
         // Add components to the frame
-        add(startButton, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
         add(new JScrollPane(logArea), BorderLayout.CENTER);
         add(progressBar, BorderLayout.SOUTH);
 
@@ -58,6 +75,14 @@ public class InstagramAutomationApp extends JFrame {
         progressBar.setIndeterminate(true); // Start indefinite loading
 
         try {
+            // Get the selected device ID
+            String selectedDevice = (String) deviceDropdown.getSelectedItem();
+            if (selectedDevice == null) {
+                logArea.append("No device selected. Please connect an Android device.\n");
+                return;
+            }
+            String deviceId = selectedDevice.split(" ")[0]; // Extract the device ID from the selection
+
             var options = new BaseOptions()
                     .amend("platformName", "Android")
                     .amend("appium:platformVersion", "11")
@@ -65,15 +90,17 @@ public class InstagramAutomationApp extends JFrame {
                     .amend("appium:automationName", "UiAutomator2")
                     .amend("appium:appPackage", "com.instagram.android")
                     .amend("appium:appActivity", "com.instagram.android.activity.MainTabActivity")
-                    .amend("appium:udid", "179124d9")
+                    .amend("appium:udid", deviceId) // Pass the selected device ID
                     .amend("appium:noReset", true)
                     .amend("appium:setFullReset", false)
                     .amend("appium:newCommandTimeout", 300);
 
             driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(8));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
             // Run your automation logic
+
+            addDelay(5000);
 
             ChatsParser chatsParser = new ChatsParser(driver, wait);
             chatsParser.storeScreenshots();
@@ -88,6 +115,29 @@ public class InstagramAutomationApp extends JFrame {
             progressBar.setIndeterminate(false); // Stop indefinite loading
             progressBar.setVisible(false); // Hide progress bar
         }
+    }
+
+    private List<String> getConnectedDevices() {
+        List<String> devices = new ArrayList<>();
+        try {
+            Process process = Runtime.getRuntime().exec("adb devices");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+            // Read the output and filter for device lines
+            devices = reader.lines()
+                    .filter(line -> line.endsWith("device"))
+                    .map(line -> line.split("\t")[0] + " (Connected Device)") // Extract device ID and add label
+                    .collect(Collectors.toList());
+
+            if (devices.isEmpty()) {
+                devices.add("No devices found. Please connect a device.");
+            }
+
+        } catch (Exception e) {
+            logArea.append("Error fetching devices: " + e.getMessage() + "\n");
+            e.printStackTrace();
+        }
+        return devices;
     }
 
     private void clickOnProfile(WebDriverWait wait, AppiumDriver driver) {

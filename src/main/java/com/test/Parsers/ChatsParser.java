@@ -1,11 +1,9 @@
-package com.test;
+package com.test.Parsers;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
@@ -59,7 +57,7 @@ public class ChatsParser {
                 // Go back to the list of users
                 driver.findElement(By.id(backBtnId)).click();
             }
-        } catch (Exception e) {
+        } catch (StaleElementReferenceException e) {
             System.out.println(e.getMessage());
         }
 
@@ -67,7 +65,7 @@ public class ChatsParser {
 
     private static void saveScreenshot(File screenshot, String username) {
         try {
-            String sourceFolderPath = System.getProperty("user.dir") + "screenshots/"+username+"/"; // Update this path as needed
+            String sourceFolderPath = System.getProperty("user.home") + "Desktop/chats/"+username+"/"; // Update this path as needed
 
             // Save the screenshot in the specified folder
             String filePath = sourceFolderPath + "/messages" + System.currentTimeMillis() + ".png";
