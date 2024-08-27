@@ -1,5 +1,6 @@
 package com.test.Parsers;
 
+import com.test.Utils.TapGesture;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -32,7 +33,7 @@ public class ChatsParser {
 
         // Navigate to the messages screen
         WebElement messenger = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.id("com.instagram.android:id/action_bar_inbox_button"))));
-        messenger.click();
+        TapGesture.singleTap(messenger, driver);
 
 
         try {
@@ -40,7 +41,7 @@ public class ChatsParser {
             for (WebElement user : users) {
 
                 String username= user.findElement(By.id("com.instagram.android:id/row_inbox_username")).getText();
-                user.click();
+                TapGesture.singleTap(user, driver);
 
                 while (true) {
                     // Take a screenshot of the current view
@@ -55,7 +56,7 @@ public class ChatsParser {
                 }
 
                 // Go back to the list of users
-                driver.findElement(By.id(backBtnId)).click();
+                TapGesture.singleTap(driver.findElement(By.id(backBtnId)), driver);
             }
         } catch (StaleElementReferenceException e) {
             System.out.println(e.getMessage());
