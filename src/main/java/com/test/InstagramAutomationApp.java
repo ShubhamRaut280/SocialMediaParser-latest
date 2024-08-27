@@ -95,7 +95,9 @@ public class InstagramAutomationApp extends JFrame {
                     .amend("appium:setFullReset", false)
                     .amend("appium:newCommandTimeout", 300);
 
-            driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
+//            driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), options);
+            driver = new AndroidDriver(new URL("http://127.0.0.1:4723/"), options);
+
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
             // Run your automation logic
