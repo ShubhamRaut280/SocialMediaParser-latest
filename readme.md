@@ -23,26 +23,27 @@ https://github.com/user-attachments/assets/fa123132-1112-4cc5-b91b-16dd413ecb5a
 ## How to Use
 
 1. Clone the repository:
-
+```
    bash
    git clone https://github.com/ShubhamRaut280/SocialMediaParser-latest.git
+```
    
 2. Install dependencies:
-
+```
    bash
    npm install appium -g
-   
+   ```
 3. Connect your android device through adb
   
 5. Run the application:
-
+```
    bash
    cd SocialMediaParser-latest
    mvn clean
    appium
    java -jar <filename>.jar 
    
-   
+   ```
 
 
 
