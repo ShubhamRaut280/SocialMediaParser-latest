@@ -1,4 +1,4 @@
-# 🔍 SocialMedia Parser
+# 🔍 SocialMedia Parser (In-progress)
 
 SocialMedia parser is a tool designed to assist investigation process by automatically parsing data from social media accounts of suspects or accused individuals. The tool will capture sceenshots of critical information like posts, messages/chats and compile them into documented format. 
 The process will reduce human error and ensure thorough examination of social media activity. 
